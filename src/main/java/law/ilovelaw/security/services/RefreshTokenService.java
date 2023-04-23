@@ -1,4 +1,4 @@
-package law.ilovelaw.services;
+package law.ilovelaw.security.services;
 
 import law.ilovelaw.exception.TokenRefreshException;
 import law.ilovelaw.models.RefreshToken;

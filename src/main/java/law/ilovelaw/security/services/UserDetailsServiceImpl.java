@@ -1,4 +1,4 @@
-package law.ilovelaw.services;
+package law.ilovelaw.security.services;
 
 import law.ilovelaw.models.User;
 import law.ilovelaw.repository.UserRepository;

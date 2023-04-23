@@ -1,4 +1,4 @@
-package law.ilovelaw.services;
+package law.ilovelaw.security.services;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import law.ilovelaw.models.User;

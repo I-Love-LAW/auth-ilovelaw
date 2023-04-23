@@ -1,6 +1,6 @@
 package law.ilovelaw.security.jwt;
 
-import law.ilovelaw.services.UserDetailsServiceImpl;
+import law.ilovelaw.security.services.UserDetailsServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
