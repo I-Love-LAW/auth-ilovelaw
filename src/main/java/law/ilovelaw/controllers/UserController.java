@@ -1,6 +1,8 @@
 package law.ilovelaw.controllers;
 
 import law.ilovelaw.models.User;
+import law.ilovelaw.payload.request.UpdateRequest;
+import law.ilovelaw.payload.response.MessageResponse;
 import law.ilovelaw.payload.response.UserResponse;
 import law.ilovelaw.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +31,18 @@ public class UserController {
         }
 
         return ResponseEntity.ok(userResponse);
+    }
+
+    @PutMapping("/update-profile")
+    public ResponseEntity<?> updateProfileUser(@RequestBody UpdateRequest updateRequest) {
+
+        try {
+            userService.updateProfileUser(updateRequest.getUsername(), updateRequest.getName());
+            return ResponseEntity.ok(new MessageResponse("User anda telah di-update"));
+        } catch (AuthenticationException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Bad Credentials: Unauthorized");
+        }
+
     }
 
 }

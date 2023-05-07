@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -46,5 +47,19 @@ public class UserServiceImpl implements UserService {
 
         user.setRoles(roles);
         userRepository.save(user);
+    }
+
+    @Override
+    public void updateProfileUser(String username, String name) {
+        Optional<User> optionalUser = userRepository.findByUsername(username);
+
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            user.setName(name);
+            userRepository.save(user);
+        } else {
+            throw new UsernameNotFoundException("User Not Found with username: " + username);
+        }
+
     }
 }
