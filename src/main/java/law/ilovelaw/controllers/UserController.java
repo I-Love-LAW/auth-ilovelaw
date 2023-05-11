@@ -28,7 +28,7 @@ public class UserController {
             User user = userService.getUserByUsername(username);
             userResponse = new UserResponse(user.getId(), user.getName());
         } catch (AuthenticationException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Bad Credentials: Unauthorized");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new MessageResponse("Bad Credentials: Unauthorized"));
         }
 
         return ResponseEntity.ok(userResponse);
@@ -41,7 +41,7 @@ public class UserController {
             userService.updateProfileUser(updateRequest.getUsername(), updateRequest.getName());
             return ResponseEntity.ok(new MessageResponse("User anda telah di-update"));
         } catch (AuthenticationException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Bad Credentials: Unauthorized");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new MessageResponse("Bad Credentials: Unauthorized"));
         }
 
     }

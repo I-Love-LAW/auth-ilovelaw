@@ -55,7 +55,7 @@ public class AuthController {
             authentication= authenticationManager
                     .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
         } catch (AuthenticationException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Bad Credentials: Unauthorized");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new MessageResponse("Bad Credentials: Unauthorized"));
         }
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -100,7 +100,7 @@ public class AuthController {
                         "Refresh token is not in database!");
             }
         } catch (TokenRefreshException e) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new MessageResponse(e.getMessage()));
         }
 
         return ResponseEntity.ok(new TokenRefreshResponse(token, requestRefreshToken));
@@ -113,7 +113,7 @@ public class AuthController {
             String userId = user.getId();
             refreshTokenService.deleteByUserId(userId);
         } catch (AuthenticationException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new MessageResponse(e.getMessage()));
         }
 
         return ResponseEntity.ok(new MessageResponse("Log out successful!"));
