@@ -2,6 +2,7 @@ package law.ilovelaw.controllers;
 
 import law.ilovelaw.models.User;
 import law.ilovelaw.payload.request.UpdateRequest;
+import law.ilovelaw.payload.response.CanConvertResponse;
 import law.ilovelaw.payload.response.MessageResponse;
 import law.ilovelaw.payload.response.UserResponse;
 import law.ilovelaw.services.UserService;
@@ -43,6 +44,33 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Bad Credentials: Unauthorized");
         }
 
+    }
+
+    @PutMapping(value  = "/upgrade-membership", produces = "application/json")
+    public ResponseEntity<?> upgradeUserMembership(@RequestParam String username) {
+
+        try {
+            boolean upgraded = userService.upgradeUserMembership(username);
+            if (upgraded) {
+                return ResponseEntity.ok(new MessageResponse("Membership upgraded successfully to Premium!"));
+            }
+            else {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new MessageResponse("You are already a Premium user of ilovelaw"));
+            }
+        } catch (AuthenticationException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new MessageResponse(e.getMessage()));
+        }
+    }
+
+    @GetMapping("/can-convert")
+    public ResponseEntity<?> getUserConvertEligibility(@RequestParam String username, @RequestParam int totalConversion) {
+
+        try {
+            boolean canConvert = userService.cekUserConvertEligibility(username, totalConversion);
+            return ResponseEntity.ok(new CanConvertResponse(Boolean.toString(canConvert)));
+        } catch (AuthenticationException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new MessageResponse(e.getMessage()));
+        }
     }
 
 }
