@@ -16,21 +16,14 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(
         prePostEnabled = true)
 @EnableWebMvc
-@EnableSwagger2
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-    private static final String[] AUTH_WHITELIST = {
-            "/v3/api-docs",
-            "/swagger-ui/**"
-    };
 
     @Autowired
     UserDetailsServiceImpl userDetailsService;
@@ -65,20 +58,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/").permitAll()
                 .antMatchers("/api/auth/**").permitAll()
-                .antMatchers(AUTH_WHITELIST).permitAll()
                 .anyRequest().authenticated().and()
-                .httpBasic().authenticationEntryPoint(swaggerAuthenticationEntryPoint()).and()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
-    }
-
-    @Bean
-    public BasicAuthenticationEntryPoint swaggerAuthenticationEntryPoint() {
-        BasicAuthenticationEntryPoint entryPoint = new BasicAuthenticationEntryPoint();
-        entryPoint.setRealmName("Swagger Realm");
-        return entryPoint;
     }
 
 }
