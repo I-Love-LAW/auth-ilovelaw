@@ -9,4 +9,10 @@ public interface UserService {
     Boolean cekExistsUserByUsername(String username);
 
     void createUser(SignupRequest signUpRequest);
+
+    void updateProfileUser(String username, String name);
+
+    Boolean upgradeUserMembership(String username);
+
+    Boolean cekUserConvertEligibility(String username, int totalConversion);
 }
