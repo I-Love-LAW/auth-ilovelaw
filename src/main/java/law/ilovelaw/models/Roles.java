@@ -15,7 +15,6 @@ import javax.persistence.*;
 @Getter
 public class Roles {
     @Id
-    @GeneratedValue(generator = "system-uuid")
     private Long id;
 
     @Enumerated(EnumType.STRING)
